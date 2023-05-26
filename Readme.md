@@ -1,4 +1,4 @@
-# WebTorrent Downloader
+# WebTorr Downloader using NodeJS - Multiple Torrents
 
 Before running `npm install webtorrent-hybrid cli-progress`, it is important to install the dependencies `pre-node-gyp` and `node-gyp`. These packages are required for successful installation of `webtorrent-hybrid` which is a native Node.js module.
 
