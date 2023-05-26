@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebTorrent Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .progress {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>WebTorrent Example</h1>
+
+  <div>
+    <label for="magnetURI">Magnet URI:</label>
+    <input type="text" id="magnetURI" placeholder="Enter magnet URI">
+    <button onclick="startDownload()">Start Download</button>
+  </div>
+
+  <div id="info">
+    <p>Status: <span id="status">Idle</span></p>
+    <p>Progress: <span id="progress">0%</span></p>
+    <p>Downloaded: <span id="downloaded">0 MB</span></p>
+    <p>Total Size: <span id="totalSize">0 MB</span></p>
+  </div>
+
+  <div class="progress">
+    <progress id="progressBar" value="0" max="100"></progress>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/webtorrent-hybrid@3.0.0/webtorrent.min.js"></script>
+  <script>
+    const client = new WebTorrent();
+
+    const statusElement = document.getElementById('status');
+    const progressElement = document.getElementById('progress');
+    const downloadedElement = document.getElementById('downloaded');
+    const totalSizeElement = document.getElementById('totalSize');
+    const progressBarElement = document.getElementById('progressBar');
+
+    function startDownload() {
+      const magnetURI = document.getElementById('magnetURI').value;
+      if (!magnetURI) return;
+
+      client.add(magnetURI, { path: './downloads' }, (torrent) => {
+        statusElement.textContent = 'Downloading: ' + torrent.name;
+
+        const updateProgress = () => {
+          const percent = (torrent.progress * 100).toFixed(2);
+          const downloaded = torrent.downloaded / 1000000;
+          const totalSize = torrent.length / 1000000;
+
+          progressElement.textContent = percent + '%';
+          downloadedElement.textContent = downloaded.toFixed(2) + ' MB';
+          totalSizeElement.textContent = totalSize.toFixed(2) + ' MB';
+
+          progressBarElement.value = torrent.progress * 100;
+
+          if (torrent.progress !== 1) {
+            setTimeout(updateProgress, 1000);
+          } else {
+            statusElement.textContent = 'Download completed!';
+          }
+        };
+
+        updateProgress();
+
+        torrent.on('download', (bytes) => {
+          console.log('Downloading ' + bytes + ' bytes');
+        });
+
+        torrent.on('done', () => {
+          console.log('Torrent download finished!');
+        });
+
+        torrent.on('error', (err) => {
+          console.log('Error downloading torrent:', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
