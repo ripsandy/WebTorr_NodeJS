@@ -18,10 +18,8 @@ To use this script, follow these steps:
 
 3. Install the necessary dependencies by running the following command in your project directory:
 
-4. Replace the placeholder magnet URIs in the `magnetURIs` array with the actual magnet URIs of the torrents you want to download. You can add or remove magnet URIs as needed.
-
-5. Run the script using the following command:
-Replace `<filename>` with the name of the file where you've saved this code.
+4. Run the script using the following command:
+Run `nodemon` or `npm start` and next line the magnet links separated by space.
 
 ## Functionality
 
