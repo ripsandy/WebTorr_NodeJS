@@ -2,7 +2,6 @@
   "name": "webtorrent-2.0.18",
   "version": "1.0.0",
   "description": "",
-  "main": "server.mjs",
   "dependencies": {
     "bufferutil": "^4.0.7",
     "chalk": "^5.2.0",

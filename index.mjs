@@ -2,8 +2,7 @@ import WebTorrent from 'webtorrent-hybrid';
 import { SingleBar, Presets } from 'cli-progress';
 
 const client = new WebTorrent();
-const magnetURIs = [
-];
+const magnetURIs = [];
 
 if (magnetURIs.length === 0) {
   console.error('Please provide at least one magnet URI.');
@@ -15,11 +14,11 @@ const progressBars = [];
 const downloadTorrents = () => {
   magnetURIs.forEach((magnetURI, index) => {
     const progress = new SingleBar({
-      format: `Torrent ${index + 1} |{bar}| {percentage}% | ETA: {eta}s | {value}/{total} MB | Speed: {speed}`,
+      format: `Torrent ${index + 1} |{bar}| {percentage}% | {value}/{total} MB `,
       barCompleteChar: '\u2588',
       barIncompleteChar: '\u2591',
       hideCursor: true,
-    }, Presets.shades_classic);
+    }, Presets.rect);
 
     progressBars.push(progress);
 
@@ -56,7 +55,7 @@ const downloadTorrents = () => {
 
 const getReadableSpeed = (speed) => {
   if (speed < 1024) {
-    return `${speed.toFixed(2)} B/s`;
+    return `${speed/ (1024 * 1024 * 1024).toFixed(2)} B/s`;
   } else if (speed < 1024 * 1024) {
     return `${(speed / 1024).toFixed(2)} KB/s`;
   } else {
